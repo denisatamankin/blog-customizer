@@ -23,17 +23,13 @@ import { useOutsideClickClose } from 'src/ui/select/hooks/useOutsideClickClose';
 import styles from './ArticleParamsForm.module.scss';
 
 type ArticleParamsFormProps = {
-	currentArticleState: ArticleStateType;
-	setCurrentArticleState: (props: ArticleStateType) => void;
+	onChange: (selectArticleState: ArticleStateType) => void;
 };
 
-export const ArticleParamsForm = ({
-	currentArticleState,
-	setCurrentArticleState,
-}: ArticleParamsFormProps) => {
+export const ArticleParamsForm = (props: ArticleParamsFormProps) => {
 	const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
 	const [selectArticleState, setSelectArticleState] =
-		useState<ArticleStateType>(currentArticleState);
+		useState<ArticleStateType>(defaultArticleState);
 	const rootRef = useRef<HTMLDivElement>(null);
 
 	const handleChange = (
@@ -62,11 +58,10 @@ export const ArticleParamsForm = ({
 					className={styles.form}
 					onSubmit={(event) => {
 						event.preventDefault();
-						setCurrentArticleState(selectArticleState);
+						props.onChange(selectArticleState);
 					}}
 					onReset={(event) => {
 						event.preventDefault();
-						setCurrentArticleState(defaultArticleState);
 						setSelectArticleState(defaultArticleState);
 					}}>
 					<Text as='h1' size={31} weight={800} uppercase>
@@ -110,7 +105,6 @@ export const ArticleParamsForm = ({
 							htmlType='reset'
 							type='clear'
 							onClick={() => {
-								setCurrentArticleState(defaultArticleState);
 								setSelectArticleState(defaultArticleState);
 							}}
 						/>
